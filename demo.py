@@ -15,7 +15,7 @@ model_configs = {
     'vitg': {'encoder': 'vitg', 'features': 384, 'out_channels': [1536, 1536, 1536, 1536]}
 }
 
-encoder = 'vitb' # or 'vitl', 'vitb', 'vitg'
+encoder = 'vits' # or 'vitl', 'vitb', 'vitg'
 
 model = DepthAnythingV2(**model_configs[encoder])
 model.load_state_dict(torch.load(f'checkpoints/depth_anything_v2_{encoder}.pth', map_location='cpu'))
@@ -57,6 +57,8 @@ plt.title(f'Render 2, elapsed {round(render_time_2,3)}')
 
 # plt.show()
 
-ctrl_number = 'vits'
+ctrl_number = '3'
 
-plt.savefig(f'./images/output/demo_output_{encoder}.png',dpi=600)
+plt.suptitle(f'Prediction with model {encoder}', fontsize=20, fontweight='bold')
+
+plt.savefig(f'./images/output/demo_output_{ctrl_number}.png',dpi=600)
