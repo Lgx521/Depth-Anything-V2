@@ -21,14 +21,19 @@ model = DepthAnythingV2(**model_configs[encoder])
 model.load_state_dict(torch.load(f'checkpoints/depth_anything_v2_{encoder}.pth', map_location='cpu'))
 model = model.to(DEVICE).eval()
 
+### 消耗掉初始化网络的时间
+t00 = time.perf_counter()
+raw_img = cv2.imread('/home/sgan/Depth-Anything-V2/images/new/IMG_2685.png')
+depth = model.infer_image(raw_img) # HxW raw depth map in numpy
+###
 
 t0 = time.perf_counter()
-raw_img = cv2.imread('/home/sgan/Depth-Anything-V2/images/1/IMG_2292.png')
+raw_img = cv2.imread('/home/sgan/Depth-Anything-V2/images/new/IMG_2685.png')
 depth = model.infer_image(raw_img) # HxW raw depth map in numpy
 
 t1 = time.perf_counter()
 
-raw_img2 = cv2.imread('/home/sgan/Depth-Anything-V2/images/1/IMG_6975.png')
+raw_img2 = cv2.imread('/home/sgan/Depth-Anything-V2/images/new/IMG_2686.png')
 depth2 = model.infer_image(raw_img2) # HxW raw depth map in numpy
 
 t2 = time.perf_counter()
@@ -57,7 +62,7 @@ plt.title(f'Render 2, elapsed {round(render_time_2,3)}')
 
 # plt.show()
 
-ctrl_number = '3'
+ctrl_number = '2-2'
 
 plt.suptitle(f'Prediction with model {encoder}', fontsize=20, fontweight='bold')
 
