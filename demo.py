@@ -15,11 +15,19 @@ model_configs = {
     'vitg': {'encoder': 'vitg', 'features': 384, 'out_channels': [1536, 1536, 1536, 1536]}
 }
 
-encoder = 'vits' # or 'vitl', 'vitb', 'vitg'
+encoder = 'vitl' # or 'vits', 'vitb', 'vitl', 'vitg'
 
 model = DepthAnythingV2(**model_configs[encoder])
 model.load_state_dict(torch.load(f'checkpoints/depth_anything_v2_{encoder}.pth', map_location='cpu'))
 model = model.to(DEVICE).eval()
+
+image_base = '/home/sgan/transparent/dataset/train_data/images/'
+image_array = []
+for i in [8,16,32,40,48,58,68,90]:
+    idx = image_base + f'{i:06d}.png'
+    image_array.append(idx)
+
+print(image_array)
 
 ### 消耗掉初始化网络的时间
 t00 = time.perf_counter()
@@ -62,7 +70,7 @@ plt.title(f'Render 2, elapsed {round(render_time_2,3)}')
 
 # plt.show()
 
-ctrl_number = '2-2'
+ctrl_number = '2-2-l'
 
 plt.suptitle(f'Prediction with model {encoder}', fontsize=20, fontweight='bold')
 
